@@ -236,14 +236,15 @@ struct pts_t {
 	pts_file_meta_t* (*get_metadata)(pts_t *this, char *pathname, bool is_dir);
 
 	/**
-	 * Reads given PCR value and returns it
-	 * Expects owner secret to be WELL_KNOWN_SECRET
+	 * Retrieve the current value of a PCR register in a given PCR bank
 	 *
-	 * @param pcr_num			Number of PCR to read
-	 * @param pcr_value			Chunk to save pcr read output
-	 * @return					NULL in case of TSS error, PCR value otherwise
+	 * @param pcr_num		PCR number
+	 * @param pcr_value		PCR value returned
+	 * @param alg			hash algorithm, selects PCR bank (TPM 2.0 only)
+	 * @return				TRUE if PCR value retrieval succeeded
 	 */
-	bool (*read_pcr)(pts_t *this, uint32_t pcr_num, chunk_t *pcr_value);
+	bool (*read_pcr)(pts_t *this, uint32_t pcr_num, chunk_t *pcr_value,
+					 hash_algorithm_t alg);
 
 	/**
 	 * Extends given PCR with given value
